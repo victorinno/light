@@ -1,30 +1,29 @@
+## app.R ##
 
-# This is the user-interface definition of a Shiny web application.
-# You can find out more about building applications with Shiny here:
-#
-# http://shiny.rstudio.com
-#
+#install.packages("devtools")
+
+#devtools::install_github("jcheng5/bubbles")
+
 
 library(shiny)
+library(shinydashboard)
+#library(bubbles)
 
-shinyUI(fluidPage(
 
-  # Application title
-  titlePanel("Old Faithful Geyser Data"),
-
-  # Sidebar with a slider input for number of bins
-  sidebarLayout(
-    sidebarPanel(
-      sliderInput("bins",
-                  "Number of bins:",
-                  min = 1,
-                  max = 50,
-                  value = 30)
-    ),
-
-    # Show a plot of the generated distribution
-    mainPanel(
-      plotOutput("distPlot")
-    )
-  )
-))
+ui <- dashboardPage(
+  dashboardHeader(title = "Light"),
+  dashboardSidebar(sidebarMenu(
+    menuItem("Home", tabName = "dashboard", icon = icon("dashboard")),
+    menuItem("Dados", tabName = "dados", icon = icon("th"))
+  )),
+  dashboardBody(tabItems(
+    tabItem(tabName = "dashboard",
+            fluidRow(valueBoxOutput(
+              "inscritosValueBox"
+            ))),
+    
+    tabItem(tabName = "dados",
+            fluidRow(DT::dataTableOutput("table")))
+    
+  ))
+)
